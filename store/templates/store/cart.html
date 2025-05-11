@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h1 class="display-6 fw-bold">Votre Panier</h1>
+                <span class="badge bg-primary rounded-pill fs-5">{{ orders.count }} article{{ orders.count|pluralize }}</span>
+            </div>
+
+            {% if orders %}
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4">
+                    {% for order in orders %}
+                    <div class="row g-4 align-items-center {% if not forloop.first %}border-top pt-4{% endif %}">
+                        <!-- Image -->
+                        <div class="col-4 col-md-3">
+                            {% if order.product.thumbnail %}
+                            <img src="{{ order.product.thumbnail.url }}"
+                                 class="img-fluid rounded-3"
+                                 alt="{{ order.product.name }}">
+                            {% else %}
+                            <div class="bg-light rounded-3 p-3 text-center">
+                                <i class="bi bi-image text-muted fs-1"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Détails -->
+                        <div class="col-8 col-md-6">
+                            <h3 class="h5 fw-bold mb-2">{{ order.product.name }}</h3>
+                            <p class="text-muted mb-2">Quantité : {{ order.quantity }}</p>
+                            <p class="h5 text-primary mb-0">
+                                {{ order.product.price }} FCFA x {{ order.quantity }}
+                            </p>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="col-12 col-md-3 text-end">
+                            <a href="{% url 'delete-order' order.id %}" class="btn btn-danger btn-sm rounded-pill">
+                                <i class="bi bi-trash"></i> Supprimer
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- Footer du panier -->
+                <div class="card-footer bg-white border-0 p-4 rounded-bottom-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <span class="h4 fw-bold mb-0">Total :</span>
+                        <span class="h3 text-primary fw-bold">
+                            {{ total_price }} FCFA
+                        </span>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <a href="{% url 'delete-cart' %}"
+                           class="btn btn-outline-danger py-3 rounded-pill">
+                            <i class="bi bi-x-circle me-2"></i>Vider le panier
+                        </a>
+                        <a href="#" class="btn btn-dark py-3 rounded-pill">
+                            <i class="bi bi-credit-card me-2"></i>Passer la commande
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {% else %}
+            <div class="text-center py-9">
+                <div class="empty-state">
+                    <i class="bi bi-cart-x display-1 text-muted mb-4"></i>
+                    <h2 class="h3 text-muted mb-3">Votre panier est vide</h2>
+                    <a href="{% url 'index' %}" class="btn btn-primary rounded-pill px-5">
+                        <i class="bi bi-arrow-left me-2"></i>Continuer vos achats
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .rounded-bottom-4 {
+        border-bottom-left-radius: 1.5rem !important;
+        border-bottom-right-radius: 1.5rem !important;
+    }
+    .empty-state {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 40px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 20px;
+    }
+</style>
+{% endblock %}

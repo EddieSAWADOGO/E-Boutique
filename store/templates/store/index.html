@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" >
+    <!-- En-tête de section -->
+    <div class="row py-5" style="margin-top: -65px; padding-bottom: 10px;" >
+        <div class="col-12 text-center">
+            <h2 class="display-4 fw-bold mb-3" style="color: #2a2a2a;">Nos Produits en Ventes</h2>
+            <div class="divider mx-auto" style="width: 100px; height: 3px; background: #ff6b6b;"></div>
+        </div>
+    </div>
+
+    <!-- Grille de produits -->
+    <div class="row row-cols-1 row-cols-lg-4 row-cols-md-2 g-4 mb-5">
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100 border-0 hover-effect">
+                <div class="image-container position-relative overflow-hidden">
+                    {% if product.thumbnail %}
+                    <img src="{{ product.thumbnail.url }}"
+                         class="card-img-top p-4 product-image"
+                         alt="{{ product.name }}"
+                         style="height: 300px; object-fit: contain; transition: transform 0.5s ease;">
+                    {% else %}
+                    <div class="bg-light d-flex align-items-center justify-content-center"
+                         style="height: 300px;">
+                        <div class="text-center">
+                            <i class="bi bi-image text-muted display-5"></i>
+                            <p class="text-muted mt-2">Image non disponible</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="product-overlay"></div>
+                </div>
+
+                <div class="card-body text-center position-relative">
+                    <span class="badge rounded-pill bg-dark position-absolute top-0 start-50 translate-middle">
+                        {{ product.category.name|default:"Collection" }}
+                    </span>
+                    <h3 class="card-title fw-bold mb-3" style="color: #343a40;">{{ product.name }}</h3>
+
+                    {% if product.price %}
+                    <p class="h4 text-primary mb-4">
+                        {{ product.price }} FCFA
+                        <small class="text-muted fs-6">TTC</small>
+                    </p>
+                    {% endif %}
+
+                    <a href="{{ product.get_absolute_url }}"
+                       class="btn btn-dark btn-hover px-5 py-3 rounded-pill">
+                        <span class="d-flex align-items-center justify-content-center">
+                            Découvrir
+                            <i class="bi bi-chevron-right ms-2"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="text-center py-9">
+                <div class="empty-state">
+                    <i class="bi bi-bag-x display-1 text-muted mb-4"></i>
+                    <h2 class="h3 text-muted mb-3">Notre rayon est vide...</h2>
+                    <p class="text-muted mb-4">Revenez bientôt pour découvrir nos nouvelles collections</p>
+                    <a href="/" class="btn btn-outline-dark">Retour à l'accueil</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+
+
+    .hover-effect {
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        border-radius: 20px !important;
+    }
+
+    .hover-effect:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+    }
+
+    .product-image:hover {
+        transform: scale(1.05);
+    }
+
+    .btn-hover {
+        transition: all 0.3s ease;
+        background: linear-gradient(45deg, #343a40, #2a2a2a);
+        border: none;
+    }
+
+    .btn-hover:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .product-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(transparent 60%, rgba(0,0,0,0.05));
+    }
+
+    .empty-state {
+        max-width: 500px;
+        margin: 0 auto;
+        padding: 40px;
+        background: rgba(255,255,255,0.8);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+    }
+</style>
+{% endblock %}

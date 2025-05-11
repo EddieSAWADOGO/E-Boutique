@@ -1,0 +1,260 @@
+/* Variables CSS */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --accent-color: #e74c3c;
+    --text-color: #2c3e50;
+    --light-bg: #f8f9fa;
+    --dark-bg: #2c3e50;
+    --transition: all 0.3s ease;
+}
+
+/* Style des boutons au survol */
+.btn:not(.btn-link) {
+    transition: var(--transition);
+}
+
+.btn:not(.btn-link):hover {
+    color: var(--primary-color) !important;
+    background-color: var(--light-bg) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.btn-primary:not(.btn-link):hover {
+    color: var(--secondary-color) !important;
+    background-color: var(--light-bg) !important;
+    border-color: var(--secondary-color) !important;
+}
+
+.btn-danger:not(.btn-link):hover {
+    color: var(--accent-color) !important;
+    background-color: var(--light-bg) !important;
+    border-color: var(--accent-color) !important;
+}
+
+/* Style des boutons de navigation */
+.navbar .btn {
+    transition: var(--transition);
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+}
+
+.navbar .btn:hover {
+    color: var(--primary-color) !important;
+    background-color: var(--light-bg) !important;
+    border-color: var(--primary-color) !important;
+}
+
+/* Style du nom d'utilisateur */
+.navbar .username {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.navbar .username i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+/* Style de la navbar */
+.navbar {
+    padding: 0.75rem 0;
+}
+
+/* Style du logo */
+.navbar-brand {
+    gap: 0.5rem;
+    padding: 0;
+}
+
+.navbar-brand span {
+    line-height: 1.2;
+}
+
+/* Style des boutons de navigation */
+.navbar .btn {
+    transition: var(--transition);
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.navbar .btn i {
+    font-size: 1.1rem;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+/* Style des boutons sur mobile */
+@media (max-width: 991.98px) {
+    .navbar .btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .navbar .btn i {
+        font-size: 1rem;
+    }
+    
+    .navbar .btn.flex-grow-1 {
+        min-width: 120px;
+    }
+}
+
+/* Style du nom d'utilisateur */
+.navbar .username {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.navbar .username i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+}
+
+/* Style spécifique pour les boutons de connexion et d'inscription */
+.navbar .btn-outline-dark {
+    border-width: 2px;
+}
+
+.navbar .btn-outline-dark:hover {
+    color: var(--primary-color) !important;
+    background-color: var(--light-bg) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.navbar .btn-primary {
+    border-width: 2px;
+}
+
+.navbar .btn-primary:hover {
+    color: var(--secondary-color) !important;
+    background-color: var(--light-bg) !important;
+    border-color: var(--secondary-color) !important;
+}
+
+/* Style des icônes dans les boutons */
+.navbar .btn i {
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Body et layout */
+body {
+    background: linear-gradient(135deg, var(--light-bg) 0%, #e9ecef 100%);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar améliorée */
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: var(--transition);
+}
+
+.navbar-brand {
+    font-family: 'Arial Rounded MT Bold', sans-serif;
+    font-size: 1.5rem;
+    color: var(--primary-color) !important;
+}
+
+/* Boutons améliorés */
+.btn {
+    border-radius: 8px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-primary:hover {
+    background-color: darken(var(--secondary-color), 10%);
+    border-color: darken(var(--secondary-color), 10%);
+}
+
+/* Cards produits */
+.product-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.15);
+}
+
+/* Footer amélioré */
+.footer {
+    background: rgba(44, 62, 80, 0.95);
+    color: rgba(255, 255, 255, 0.9);
+    padding: 2rem 0;
+}
+
+.footer a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer a:hover {
+    color: var(--secondary-color);
+}
+
+/* Animations pour le contenu */
+.content-fade {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+    
+    .btn {
+        padding: 0.4rem 1rem;
+    }
+    
+    .product-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Animations pour les notifications */
+.toast {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Style pour les formulaires */
+.form-control {
+    border-radius: 8px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}

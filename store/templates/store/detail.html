@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Colonne Image -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                {% if product.thumbnail %}
+                <div class="image-magnifier" style="cursor: crosshair">
+                    <img src="{{ product.thumbnail.url }}"
+                         class="img-fluid p-4 product-detail-image"
+                         alt="{{ product.name}}"
+                         style="max-height: 600px; object-fit: contain;">
+                </div>
+                {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center" style="height: 500px;">
+                    <div class="text-center">
+                        <i class="bi bi-image-slash display-4 text-muted"></i>
+                        <p class="text-muted mt-3">Image non disponible</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Colonne Détails -->
+        <div class="col-lg-6">
+            <div class="product-details ps-xl-5">
+                <!-- En-tête -->
+                <div class="d-flex justify-content-between align-items-start mb-4">
+                    <h1 class="display-5 fw-bold mb-0" style="color: #2a2a2a;">{{ product.name }}</h1>
+                    <span class="badge bg-dark rounded-pill fs-6">{{ product.category.name }}</span>
+                </div>
+
+                <!-- Prix -->
+                <div class="mb-4">
+                    <span class="display-4 fw-bold text-primary">{{ product.price }}</span>
+                    <span class="fs-5 text-muted ms-2">FCFA</span>
+                </div>
+
+                <!-- Stock -->
+                <div class="d-flex align-items-center mb-4">
+                    <i class="bi bi-box-seam me-2 fs-5 text-success"></i>
+                    <span class="fs-5 {% if product.stock > 0 %}text-success{% else %}text-danger{% endif %}">
+                        {{ product.stock }} unité{{ product.stock|pluralize }} disponible{{ product.stock|pluralize }}
+                    </span>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-5">
+                    <h3 class="h4 fw-bold mb-3">Description du produit</h3>
+                    <p class="lead text-muted lh-lg" style="text-align: justify;">
+                        {{ product.description }}
+                    </p>
+                </div>
+
+                <!-- CTA -->
+                {% if user.is_authenticated %}
+                <div class="d-grid gap-3">
+                    <a href="{% url 'add-to-cart' product.slug %}"
+                       class="btn btn-dark btn-hover py-3 fs-5 rounded-pill">
+                        <i class="bi bi-cart-plus me-2"></i>
+                        Ajouter au panier
+                    </a>
+                    <a href="{% url 'cart' %}" class="btn btn-outline-dark py-3 fs-5 rounded-pill">
+                        Voir mon panier
+                        <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+                {% else %}
+                <div class="alert alert-dark rounded-4" role="alert">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-info-circle me-3 fs-4"></i>
+                        <span class="fs-5">Connectez-vous pour ajouter des articles à votre panier</span>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .product-detail-image {
+        transition: transform 0.3s ease;
+        cursor: zoom-in;
+    }
+
+    .product-detail-image:hover {
+        transform: scale(1.03);
+    }
+
+    .btn-hover {
+        transition: all 0.3s ease;
+        background: linear-gradient(45deg, #2a2a2a, #1a1a1a);
+        border: none;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-hover:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,0.3),
+            transparent
+        );
+        transition: all 0.6s ease;
+    }
+
+    .btn-hover:hover:before {
+        left: 100%;
+    }
+
+    .rounded-4 {
+        border-radius: 1.5rem !important;
+    }
+</style>
+{% endblock %}
