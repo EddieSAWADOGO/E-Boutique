@@ -76,7 +76,7 @@
 </div>
 
 <style>
-    /* Animations */
+    /* Styles communs */
     .animate__fadeInUp {
         animation: fadeInUp 0.6s ease-out;
     }
@@ -92,6 +92,24 @@
         }
     }
 
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    }
+
+    .btn-primary {
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3) !important;
+    }
+
     .input-group-text {
         transition: background-color 0.3s ease;
     }
@@ -105,15 +123,26 @@
         background-color: rgba(13, 110, 253, 0.1);
     }
 
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3) !important;
+    /* Styles responsives */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 2rem !important;
+        }
+        .input-group-lg > .form-control,
+        .input-group-lg > .input-group-text {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
     }
 
-    /* Effet au survol de la carte */
-    .card:hover {
-        transform: translateY(-5px);
-        transition: transform 0.3s ease;
+    @media (max-width: 576px) {
+        .card-body {
+            padding: 1.5rem !important;
+        }
+        .btn-lg {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
     }
 </style>
 
@@ -121,17 +150,38 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Validation en temps réel
     const inputs = document.querySelectorAll('.form-control');
+    
     inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            if (this.checkValidity()) {
-                this.classList.add('is-valid');
-                this.classList.remove('is-invalid');
-            } else {
-                this.classList.add('is-invalid');
-                this.classList.remove('is-valid');
+        if (input.required) {
+            input.addEventListener('input', function() {
+                if (this.checkValidity()) {
+                    this.classList.add('is-valid');
+                    this.classList.remove('is-invalid');
+                } else {
+                    this.classList.add('is-invalid');
+                    this.classList.remove('is-valid');
+                }
+            });
+        }
+    });
+
+    // Validation au submit
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            let isValid = true;
+            inputs.forEach(input => {
+                if (input.required && !input.value.trim()) {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                event.preventDefault();
             }
         });
-    });
+    }
 });
 </script>
 {% endblock %}

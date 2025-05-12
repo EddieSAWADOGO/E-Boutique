@@ -91,14 +91,33 @@
 </div>
 
 <style>
-    /* Réutilisation des styles de la page de connexion */
+    /* Styles communs */
     .animate__fadeInUp {
         animation: fadeInUp 0.6s ease-out;
     }
 
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
     .card:hover {
         transform: translateY(-5px);
-        transition: transform 0.3s ease;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+    }
+
+    .btn-success {
+        transition: all 0.3s ease;
     }
 
     .btn-success:hover {
@@ -106,9 +125,39 @@
         box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3) !important;
     }
 
-    /* Style supplémentaire pour la confirmation de mot de passe */
-    #password2:focus {
-        border-color: #198754 !important;
+    .input-group-text {
+        transition: background-color 0.3s ease;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        border-color: #198754;
+    }
+
+    .form-control:focus + .input-group-text {
+        background-color: rgba(25, 135, 84, 0.1);
+    }
+
+    /* Styles responsives */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 2rem !important;
+        }
+        .input-group-lg > .form-control,
+        .input-group-lg > .input-group-text {
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .card-body {
+            padding: 1.5rem !important;
+        }
+        .btn-lg {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
     }
 </style>
 
@@ -116,32 +165,54 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Validation en temps réel
     const inputs = document.querySelectorAll('.form-control');
-    inputs.forEach(input => {
-        input.addEventListener('input', function() {
-            if (this.checkValidity()) {
-                this.classList.add('is-valid');
-                this.classList.remove('is-invalid');
-            } else {
-                this.classList.add('is-invalid');
-                this.classList.remove('is-valid');
-            }
-        });
-    });
-
-    // Validation de la confirmation de mot de passe
     const password = document.getElementById('password');
     const passwordConfirm = document.getElementById('password2');
 
     function validatePassword() {
-        if(password.value !== passwordConfirm.value) {
+        if (password.value !== passwordConfirm.value) {
+            passwordConfirm.classList.add('is-invalid');
+            passwordConfirm.classList.remove('is-valid');
             passwordConfirm.setCustomValidity("Les mots de passe ne correspondent pas");
         } else {
+            passwordConfirm.classList.remove('is-invalid');
+            passwordConfirm.classList.add('is-valid');
             passwordConfirm.setCustomValidity('');
         }
     }
 
-    password.onchange = validatePassword;
-    passwordConfirm.onkeyup = validatePassword;
+    inputs.forEach(input => {
+        // Validation pour les champs requis
+        if (input.required) {
+            input.addEventListener('input', function() {
+                if (this === password || this === passwordConfirm) {
+                    validatePassword();
+                } else if (this.checkValidity()) {
+                    this.classList.add('is-valid');
+                    this.classList.remove('is-invalid');
+                } else {
+                    this.classList.add('is-invalid');
+                    this.classList.remove('is-valid');
+                }
+            });
+        }
+    });
+
+    // Validation initiale
+    if (password && passwordConfirm) {
+        password.addEventListener('input', validatePassword);
+        passwordConfirm.addEventListener('input', validatePassword);
+    }
+
+    // Validation au submit
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(event) {
+            if (password && passwordConfirm && password.value !== passwordConfirm.value) {
+                event.preventDefault();
+                validatePassword();
+            }
+        });
+    }
 });
 </script>
 {% endblock %}
